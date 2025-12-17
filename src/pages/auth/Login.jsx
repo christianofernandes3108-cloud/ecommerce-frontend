@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import Button from "../../components/common/Button";
 
 export default function Login() {
   const { register, handleSubmit } = useForm();
@@ -8,45 +10,48 @@ export default function Login() {
   const navigate = useNavigate();
 
   function onSubmit(data) {
-    const savedUser = JSON.parse(localStorage.getItem("user"));
+    const users = JSON.parse(localStorage.getItem("users")) || [];
 
-    if (
-      savedUser &&
-      savedUser.email === data.email &&
-      savedUser.password === data.password
-    ) {
-      login(savedUser);
+    const foundUser = users.find(
+      (u) => u.email === data.email && u.password === data.password
+    );
 
-      if (savedUser.role === "admin") {
-        navigate("/admin");
-      } else {
-        navigate("/");
-      }
-    } else {
-      alert("Invalid credentials");
+    if (!foundUser) {
+      toast.error("Invalid email or password");
+      return;
     }
+
+    login(foundUser);
+    localStorage.setItem("currentUser", JSON.stringify(foundUser));
+
+    toast.success(`Welcome back, ${foundUser.name}`);
+
+    navigate(foundUser.role === "admin" ? "/admin" : "/");
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-8 rounded-lg shadow-md w-full max-w-md space-y-4"
-      >
-        <h2 className="text-2xl font-bold text-center">Login</h2>
+    <div className="auth-screen">
+      <div className="auth-box">
+        <h2>Sign in to BlueShop</h2>
 
-        <input {...register("email")} placeholder="Email" className="input" />
-        <input
-          type="password"
-          {...register("password")}
-          placeholder="Password"
-          className="input"
-        />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <input {...register("email")} className="input" placeholder="Email" />
+          <input
+            type="password"
+            {...register("password")}
+            className="input"
+            placeholder="Password"
+          />
+          <Button type="submit">Sign In</Button>
+        </form>
 
-        <button className="w-full bg-black text-white py-2 rounded">
-          Login
-        </button>
-      </form>
+        <p style={{ marginTop: 20, textAlign: "center" }}>
+          Don’t have an account?{" "}
+          <Link to="/signup" style={{ color: "#2563eb", fontWeight: 600 }}>
+            Create one
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

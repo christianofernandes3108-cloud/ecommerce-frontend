@@ -1,80 +1,190 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
+/* =======================
+   GLOBAL RESET
+======================= */
+* {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+/* =======================
+   COLOR SYSTEM
+======================= */
+:root {
+  --blue-primary: #2563eb;
+  --blue-secondary: #1e40af;
+  --blue-light: #eff6ff;
+  --white: #ffffff;
+  --gray-text: #475569;
+  --gray-light: #e5e7eb;
+}
+
+/* =======================
+   BASE
+======================= */
+body {
+  font-family: "Inter", Arial, sans-serif;
+  background: linear-gradient(180deg, #f8fbff, #eef4ff);
+  color: var(--gray-text);
+}
+
+/* =======================
+   PAGE WRAPPER
+======================= */
+.page {
+  padding: 40px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* =======================
+   TYPOGRAPHY
+======================= */
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-size: 32px;
+  color: #0f172a;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+h2 {
+  font-size: 24px;
+  color: #0f172a;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+h3 {
+  font-size: 18px;
+  color: #0f172a;
 }
 
+p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* =======================
+   INPUTS
+======================= */
 .input {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--gray-light);
+  font-size: 14px;
+  background: var(--white);
 }
 
-.error {
-  color: red;
-  font-size: 0.875rem;
+.input:focus {
+  outline: none;
+  border-color: var(--blue-primary);
+}
+
+/* =======================
+   BUTTONS
+======================= */
+.btn {
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--blue-primary),
+    var(--blue-secondary)
+  );
+  color: white;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(37, 99, 235, 0.45);
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+/* =======================
+   CARD (GLASS STYLE)
+======================= */
+.card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+}
+
+/* =======================
+   NAVBAR
+======================= */
+.navbar {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: var(--blue-primary);
+  font-weight: 600;
+  margin-right: 24px;
+}
+
+/* =======================
+   GRID
+======================= */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+/* =======================
+   AUTH CONTAINER
+======================= */
+.auth-box {
+  width: 420px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+}
+
+.auth-box h2 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* =======================
+   AUTH FULLSCREEN CENTER
+======================= */
+.auth-screen {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, #f8fbff, #eef4ff);
+  z-index: 9999;
 }

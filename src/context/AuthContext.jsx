@@ -2,22 +2,23 @@
 
 import { createContext, useContext, useState } from "react";
 
-export const AuthContext = createContext(null);
+const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
+  // ✅ Lazy initialization from localStorage (NO useEffect)
   const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("currentUser");
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
   function login(userData) {
-    localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);
+    localStorage.setItem("currentUser", JSON.stringify(userData));
   }
 
   function logout() {
-    localStorage.removeItem("user");
     setUser(null);
+    localStorage.removeItem("currentUser");
   }
 
   const value = {
