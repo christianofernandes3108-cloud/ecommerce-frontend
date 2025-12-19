@@ -1,77 +1,56 @@
 import { useEffect, useState } from "react";
+import { getProducts, saveProducts } from "../../services/productService";
 import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
 
 export default function AdminProducts() {
-  // ✅ Lazy initialization (NO useEffect)
-  const [products, setProducts] = useState(() => {
-    const stored = localStorage.getItem("admin_products");
-    return stored ? JSON.parse(stored) : [];
-  });
-
+  const [products, setProducts] = useState([]);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
 
-  // ✅ Legitimate side effect: persist products
   useEffect(() => {
-    localStorage.setItem("admin_products", JSON.stringify(products));
-  }, [products]);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setProducts(getProducts());
+  }, []);
 
   function addProduct(e) {
     e.preventDefault();
-
-    setProducts((prev) => [
-      ...prev,
-      { id: Date.now(), name, price },
-    ]);
-
+    const updated = [
+      ...products,
+      { id: Date.now(), name, price, image: "https://via.placeholder.com/500", description: "" },
+    ];
+    setProducts(updated);
+    saveProducts(updated);
     setName("");
     setPrice("");
   }
 
   function deleteProduct(id) {
-    setProducts((prev) => prev.filter((p) => p.id !== id));
+    const updated = products.filter((p) => p.id !== id);
+    setProducts(updated);
+    saveProducts(updated);
   }
 
   return (
     <div>
-      <h1 style={{ marginBottom: "20px" }}>Products</h1>
+      <h1>Products</h1>
 
       <Card>
         <form onSubmit={addProduct} style={{ display: "flex", gap: "12px" }}>
-          <input
-            className="input"
-            placeholder="Product name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <input
-            className="input"
-            placeholder="Price"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
+          <input className="input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
+          <input className="input" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Price" />
           <Button>Add</Button>
         </form>
       </Card>
 
-      <div style={{ marginTop: "24px" }}>
-        {products.map((p) => (
-          <Card key={p.id} style={{ marginBottom: "12px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>
-                {p.name} — ${p.price}
-              </span>
-              <Button
-                variant="danger"
-                onClick={() => deleteProduct(p.id)}
-              >
-                Delete
-              </Button>
-            </div>
-          </Card>
-        ))}
-      </div>
+      {products.map((p) => (
+        <Card key={p.id} style={{ marginTop: "12px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span>{p.name} — ${p.price}</span>
+            <Button variant="danger" onClick={() => deleteProduct(p.id)}>Delete</Button>
+          </div>
+        </Card>
+      ))}
     </div>
   );
 }

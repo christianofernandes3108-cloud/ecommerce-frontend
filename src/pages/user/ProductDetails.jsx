@@ -1,28 +1,64 @@
 import { useParams } from "react-router-dom";
-import { products } from "../../data/products";
+import { useEffect, useState } from "react";
+import { getProducts } from "../../services/productService";
 import { useCart } from "../../context/CartContext";
+import Button from "../../components/common/Button";
 
 export default function ProductDetails() {
   const { id } = useParams();
   const { addToCart } = useCart();
+  const [product, setProduct] = useState(null);
 
-  const product = products.find((p) => p.id === Number(id));
+  useEffect(() => {
+    const products = getProducts();
+    const found = products.find((p) => p.id === Number(id));
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setProduct(found);
+  }, [id]);
 
-  if (!product) return <p>Product not found</p>;
+  if (!product) {
+    return <p className="page">Product not found.</p>;
+  }
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <img src={product.image} alt={product.name} />
-      <h2 className="text-2xl font-bold mt-4">{product.name}</h2>
-      <p className="mt-2">{product.description}</p>
-      <p className="font-bold mt-2">${product.price}</p>
-
-      <button
-        onClick={() => addToCart(product)}
-        className="mt-4 bg-black text-white px-4 py-2 rounded"
+    <div className="page">
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "48px",
+          alignItems: "center",
+        }}
       >
-        Add to Cart
-      </button>
+        <div className="card">
+          <img
+            src={product.image}
+            alt={product.name}
+            style={{ width: "100%", borderRadius: "16px" }}
+          />
+        </div>
+
+        <div>
+          <h1>{product.name}</h1>
+
+          <p style={{ margin: "20px 0" }}>{product.description}</p>
+
+          <p
+            style={{
+              fontSize: "28px",
+              fontWeight: 700,
+              color: "#2563eb",
+              marginBottom: "32px",
+            }}
+          >
+            ${product.price}
+          </p>
+
+          <Button onClick={() => addToCart(product)}>
+            Add to Cart
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

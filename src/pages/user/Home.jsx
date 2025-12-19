@@ -1,17 +1,22 @@
-import { products } from "../../data/products";
+import { useEffect, useState } from "react";
+import { getProducts } from "../../services/productService";
 import { useCart } from "../../context/CartContext";
-import { Link } from "react-router-dom";
 import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
+import { Link } from "react-router-dom";
 
 export default function Home() {
+  const [products, setProducts] = useState([]);
   const { addToCart } = useCart();
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setProducts(getProducts());
+  }, []);
 
   return (
     <div className="page">
-      <h1 style={{ marginBottom: "30px" }}>
-        Discover Premium Products
-      </h1>
+      <h1 style={{ marginBottom: "30px" }}>Discover Products</h1>
 
       <div className="grid">
         {products.map((product) => (
@@ -19,31 +24,14 @@ export default function Home() {
             <img
               src={product.image}
               alt={product.name}
-              style={{
-                width: "100%",
-                borderRadius: "14px",
-                marginBottom: "16px",
-              }}
+              style={{ width: "100%", borderRadius: "14px" }}
             />
-
             <h3>{product.name}</h3>
-            <p style={{ margin: "10px 0", fontWeight: 600 }}>
-              ${product.price}
-            </p>
+            <p>${product.price}</p>
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Link to={`/product/${product.id}`}>
-                View Details
-              </Link>
-              <Button onClick={() => addToCart(product)}>
-                Add
-              </Button>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <Link to={`/product/${product.id}`}>View</Link>
+              <Button onClick={() => addToCart(product)}>Add</Button>
             </div>
           </Card>
         ))}

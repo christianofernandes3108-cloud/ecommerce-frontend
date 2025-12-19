@@ -1,37 +1,27 @@
+import { useEffect, useState } from "react";
 import Card from "../../components/common/Card";
 
 export default function AdminUsers() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [users, setUsers] = useState([]);
 
-  if (!user) {
-    return <p>No users found.</p>;
-  }
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setUsers(JSON.parse(localStorage.getItem("users")) || []);
+  }, []);
 
   return (
     <div>
-      <h1 style={{ marginBottom: "24px" }}>Registered Users</h1>
+      <h1 style={{ marginBottom: "24px" }}>Users</h1>
 
       <div className="grid">
-        <Card>
-          <h3 style={{ marginBottom: "10px" }}>
-            {user.name} {user.surname}
-          </h3>
-
-          <p>
-            <strong>Email:</strong> {user.email}
-          </p>
-
-          <p>
-            <strong>Phone:</strong> {user.phone}
-          </p>
-
-          <p>
-            <strong>Role:</strong>{" "}
-            <span style={{ color: "#2563eb", fontWeight: 600 }}>
-              {user.role}
-            </span>
-          </p>
-        </Card>
+        {users.map((u) => (
+          <Card key={u.id}>
+            <h3>{u.name} {u.surname}</h3>
+            <p>{u.email}</p>
+            <p>{u.phone}</p>
+            <p><strong>{u.role}</strong></p>
+          </Card>
+        ))}
       </div>
     </div>
   );
