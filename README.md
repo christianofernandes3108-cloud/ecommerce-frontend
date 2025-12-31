@@ -1,16 +1,89 @@
-# React + Vite
+# E-Commerce Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+A full-stack e-commerce application built to simulate a real-world online shopping system. The platform supports authenticated users and administrators, with role-based access control, product management, and cart/checkout functionality.
 
-Currently, two official plugins are available:
+This project demonstrates practical full-stack development, business logic implementation, and secure user workflows.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Tech Stack
+Frontend:
+- React
+- HTML
+- CSS
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Backend:
+- Node.js
+- Express
 
-## Expanding the ESLint configuration
+Database:
+- MongoDB
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Authentication:
+- JSON Web Tokens (JWT)
+
+---
+
+## Features
+
+User Features:
+- User registration and login
+- Secure authentication with protected routes
+- Product browsing
+- Shopping cart functionality
+- Checkout logic
+
+Admin Features:
+- Admin-only access control
+- Product creation, update, and deletion (CRUD)
+- User management
+- Secure role-based authorization
+
+---
+
+## Application Flow
+1. Users register or log in
+2. Authenticated users can browse products and manage their cart
+3. Admin users can manage products and users
+4. Role-based access ensures secure separation between user and admin functionality
+
+---
+
+## Setup Instructions
+
+Prerequisites:
+- Node.js installed
+- MongoDB installed or MongoDB Atlas account
+
+Installation:
+1. Clone the repository:
+   git clone https://github.com/christianofernandes3108-cloud/ecommerce-frontend.git
+
+2. Navigate to the project directory:
+   cd ecommerce-frontend
+
+3. Install dependencies:
+   npm install
+
+4. Create a `.env` file and configure environment variables:
+   MONGO_URI=your_mongodb_connection_string  
+   JWT_SECRET=your_jwt_secret  
+
+5. Run the application:
+   npm start
+
+---
+
+## Future Improvements
+- Payment gateway integration
+- Order history and tracking
+- API testing
+- UI/UX enhancements
+- Deployment to a cloud platform
+
+---
+
+## Author
+Christiano Fernandes  
+Junior Backend / Full-Stack Developer
